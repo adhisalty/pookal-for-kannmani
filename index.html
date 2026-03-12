@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pookal for my kannmani</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-pink: #ff85a2;
+            --soft-glow: rgba(255, 182, 193, 0.3);
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #070b14 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+        }
+
+        .garden {
+            position: relative;
+            z-index: 10;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(0,0,0,0.6);
+            max-width: 90%;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(40px, 8vw, 56px);
+            margin-bottom: 5px;
+            color: var(--primary-pink);
+            text-shadow: 0 0 15px var(--soft-glow);
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+        }
+
+        .instructions {
+            opacity: 0;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            color: #ffb7c5;
+            margin-bottom: 25px;
+            animation: fadeIn 1.5s forwards 1s;
+        }
+
+        .flower {
+            font-size: 60px;
+            margin: 10px;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: grow 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .flower:nth-child(1) { animation-delay: 0.2s; }
+        .flower:nth-child(2) { animation-delay: 0.4s; }
+        .flower:nth-child(3) { animation-delay: 0.6s; }
+        .flower:nth-child(4) { animation-delay: 0.8s; }
+        .flower:nth-child(5) { animation-delay: 1.0s; }
+        .flower:nth-child(6) { animation-delay: 1.2s; }
+
+        .flower:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .flower.bloomed {
+            filter: drop-shadow(0 0 15px var(--primary-pink));
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        #message {
+            display: none;
+            margin-top: 25px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 28px;
+            line-height: 1.5;
+            color: #ffe0e6;
+            animation: fadeInUp 1.2s forwards;
+        }
+
+        .petal {
+            position: absolute;
+            top: -50px;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes grow {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg) translateX(0); }
+            100% { transform: translateY(110vh) rotate(360deg) translateX(50px); }
+        }
+
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: spark 0.8s ease-out forwards;
+            font-size: 20px;
+        }
+
+        @keyframes spark {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="garden">
+        <h1>Hello Kannmani ✨</h1>
+        <div class="instructions">ella poovilum njekk 🌷</div>
+
+        <div class="flowers">
+            <span class="flower" onclick="bloom(this)">🌸</span>
+            <span class="flower" onclick="bloom(this)">🌼</span>
+            <span class="flower" onclick="bloom(this)">🌷</span>
+            <span class="flower" onclick="bloom(this)">🌹</span>
+            <span class="flower" onclick="bloom(this)">🌺</span>
+            <span class="flower" onclick="bloom(this)">🌻</span>
+        </div>
+
+        <div id="message">
+            adjust with these pookal for now 🌸<br>
+            your viva will go great ✨<br><br>
+            <span style="font-size: 22px; font-family: 'Poppins'; opacity: 0.9;">
+                congrats on getting your periods 🌷<br>
+                <b>pls be kind to me😞</b>
+            </span>
+        </div>
+    </div>
+
+    <script>
+        let count = 0;
+        const total = 6;
+
+        function bloom(flower) {
+            if(flower.classList.contains('bloomed')) return;
+            
+            flower.classList.add('bloomed');
+            flower.innerHTML = "💮"; 
+            count++;
+
+            // Trigger the "spark" effect
+            const rect = flower.getBoundingClientRect();
+            for (let i = 0; i < 8; i++) {
+                const s = document.createElement("div");
+                s.className = "sparkle";
+                s.innerHTML = "✨";
+                const tx = (Math.random() - 0.5) * 120;
+                const ty = (Math.random() - 0.5) * 120;
+                s.style.setProperty('--tx', `${tx}px`);
+                s.style.setProperty('--ty', `${ty}px`);
+                s.style.left = (rect.left + rect.width/2) + "px";
+                s.style.top = (rect.top + rect.height/2) + "px";
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 800);
+            }
+
+            if (count >= total) {
+                setTimeout(() => {
+                    document.querySelector('.instructions').style.opacity = '0';
+                    document.getElementById("message").style.display = 'block';
+                    // Extra petal burst
+                    for(let i=0; i<15; i++) setTimeout(createPetal, i*150);
+                }, 400);
+            }
+        }
+
+        function createPetal() {
+            const p = document.createElement("div");
+            p.className = "petal";
+            const items = ["🌸", "🌺", "🌼", "✨", "🌷", "💖"];
+            p.innerHTML = items[Math.floor(Math.random() * items.length)];
+            p.style.left = Math.random() * 100 + "vw";
+            p.style.fontSize = (Math.random() * 20 + 15) + "px";
+            p.style.animationDuration = (Math.random() * 3 + 4) + "s";
+            p.style.opacity = Math.random() + 0.3;
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 8000);
+        }
+
+        setInterval(createPetal, 700);
+    </script>
+</body>
+</html>
