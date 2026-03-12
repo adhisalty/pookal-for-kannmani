@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pookal for my kannmani</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <title>For My Kannmani</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --primary-pink: #ff85a2;
-            --soft-glow: rgba(255, 182, 193, 0.3);
+            --soft-glow: rgba(255, 133, 162, 0.6);
+            --bg-dark: #0f0c29;
+            --bg-mid: #302b63;
+            --bg-light: #24243e;
         }
 
         body {
@@ -18,125 +21,208 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at center, #1a1a2e 0%, #070b14 100%);
+            /* Animated Deep Space Background */
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #2b1055);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
             color: white;
             text-align: center;
         }
 
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating particles in background */
+        .bg-particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
         .garden {
             position: relative;
             z-index: 10;
-            padding: 30px;
+            padding: 40px 30px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 30px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 40px rgba(0,0,0,0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px var(--soft-glow);
             max-width: 90%;
+            width: 400px;
+            transform: translateY(50px);
+            opacity: 0;
+            animation: cardEntrance 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes cardEntrance {
+            to { transform: translateY(0); opacity: 1; }
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: clamp(40px, 8vw, 56px);
-            margin-bottom: 5px;
-            color: var(--primary-pink);
-            text-shadow: 0 0 15px var(--soft-glow);
-            opacity: 0;
-            animation: fadeIn 1.5s forwards;
+            font-size: clamp(36px, 7vw, 50px);
+            margin: 0 0 10px 0;
+            background: linear-gradient(to right, #fff, var(--primary-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 133, 162, 0.5));
+            animation: textGlow 3s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { filter: drop-shadow(0 0 5px rgba(255, 133, 162, 0.3)); }
+            to { filter: drop-shadow(0 0 20px rgba(255, 133, 162, 0.8)); }
         }
 
         .instructions {
-            opacity: 0;
-            font-size: 18px;
-            letter-spacing: 0.5px;
-            color: #ffb7c5;
-            margin-bottom: 25px;
-            animation: fadeIn 1.5s forwards 1s;
+            font-size: 16px;
+            letter-spacing: 1px;
+            color: #e0e0e0;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        .flowers-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
         }
 
         .flower {
-            font-size: 60px;
-            margin: 10px;
+            font-size: 45px;
             cursor: pointer;
-            display: inline-block;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: grow 0.8s ease-out forwards;
-            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
         }
 
-        .flower:nth-child(1) { animation-delay: 0.2s; }
-        .flower:nth-child(2) { animation-delay: 0.4s; }
-        .flower:nth-child(3) { animation-delay: 0.6s; }
-        .flower:nth-child(4) { animation-delay: 0.8s; }
-        .flower:nth-child(5) { animation-delay: 1.0s; }
-        .flower:nth-child(6) { animation-delay: 1.2s; }
-
         .flower:hover {
-            transform: scale(1.2) rotate(5deg);
+            transform: scale(1.2) translateY(-10px);
         }
 
         .flower.bloomed {
-            filter: drop-shadow(0 0 15px var(--primary-pink));
-            transform: scale(1.1);
+            transform: scale(0);
+            opacity: 0;
             pointer-events: none;
+        }
+
+        /* The Bee/Sparkle that replaces the flower - ENHANCED ANIMATION */
+        .flower.bloomed::after {
+            content: "🐝✨";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            animation: enhancedPulse 0.6s infinite alternate;
+            filter: drop-shadow(0 0 15px #ffaa00) drop-shadow(0 0 30px #ff5e9e);
+            white-space: nowrap;
+        }
+
+        @keyframes enhancedPulse {
+            0% { 
+                transform: translate(-50%, -50%) scale(1) rotate(-5deg); 
+                filter: drop-shadow(0 0 10px #ffcc00) drop-shadow(0 0 30px #ff1493);
+                opacity: 0.9;
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1.6) rotate(5deg); 
+                filter: drop-shadow(0 0 25px #ffdd55) drop-shadow(0 0 60px #ff69b4) drop-shadow(0 0 100px #ff00aa);
+                opacity: 1;
+            }
         }
 
         #message {
             display: none;
-            margin-top: 25px;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: messageReveal 0.8s ease-out forwards;
+        }
+
+        @keyframes messageReveal {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        #message h2 {
             font-family: 'Dancing Script', cursive;
             font-size: 28px;
-            line-height: 1.5;
-            color: #ffe0e6;
-            animation: fadeInUp 1.2s forwards;
+            color: var(--primary-pink);
+            margin: 0 0 10px 0;
         }
 
-        .petal {
-            position: absolute;
-            top: -50px;
-            pointer-events: none;
-            animation: fall linear infinite;
+        #message p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #fff;
         }
 
-        @keyframes grow {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes fadeIn { to { opacity: 1; } }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(-50px) rotate(0deg) translateX(0); }
-            100% { transform: translateY(110vh) rotate(360deg) translateX(50px); }
-        }
-
-        .sparkle {
+        /* Particle Effects - ENHANCED for more sparkle */
+        .particle {
             position: absolute;
             pointer-events: none;
-            animation: spark 0.8s ease-out forwards;
+            animation: explode 0.9s ease-out forwards;
             font-size: 20px;
+            z-index: 1000;
+            filter: drop-shadow(0 0 10px currentColor);
         }
 
-        @keyframes spark {
-            0% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+        @keyframes explode {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
         }
+
+        .heart-beat {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+            color: #ff4d6d;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
+            animation: bigHeart 2s ease-in-out forwards;
+        }
+
+        @keyframes bigHeart {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+
     </style>
 </head>
 <body>
 
+    <!-- Background particles container -->
+    <div id="bg-particles"></div>
+
     <div class="garden">
         <h1>Hello Kannmani ✨</h1>
-        <div class="instructions">ella poovilum njekk 🌷</div>
+        <div class="instructions">ella poovilum njekkavo pls 🌷</div>
 
-        <div class="flowers">
+        <div class="flowers-container">
             <span class="flower" onclick="bloom(this)">🌸</span>
             <span class="flower" onclick="bloom(this)">🌼</span>
             <span class="flower" onclick="bloom(this)">🌷</span>
@@ -146,66 +232,122 @@
         </div>
 
         <div id="message">
-            adjust with these pookal for now 🌸<br>
-            your viva will go great ✨<br><br>
-            <span style="font-size: 22px; font-family: 'Poppins'; opacity: 0.9;">
-                congrats on getting your periods 🌷<br>
-                <b>pls be kind to me😞</b>
-            </span>
+            <h2>Special Message 💌</h2>
+            <p>
+                Adjust with these pookal for now 🌸<br>
+                Your viva will go great ✨<br><br>
+                <span style="font-size: 12px; opacity: 0.8;">
+                    congrats on getting your periods 🌷<br>
+                    <b>pls be kind to me😞</b>
+                </span>
+            </p>
         </div>
     </div>
 
     <script>
+        // 1. Create Background Stars
+        const bgContainer = document.getElementById('bg-particles');
+        for(let i=0; i<50; i++) {
+            const star = document.createElement('div');
+            star.className = 'bg-particle';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            bgContainer.appendChild(star);
+        }
+
         let count = 0;
         const total = 6;
 
+        // ENHANCED bloom function with better particle effects
         function bloom(flower) {
             if(flower.classList.contains('bloomed')) return;
             
+            // Add bloom class first
             flower.classList.add('bloomed');
-            flower.innerHTML = "🐝✨"; 
             count++;
 
-            // Trigger the "spark" effect
-            const rect = flower.getBoundingClientRect();
-            for (let i = 0; i < 8; i++) {
-                const s = document.createElement("div");
-                s.className = "sparkle";
-                s.innerHTML = "✨";
-                const tx = (Math.random() - 0.5) * 120;
-                const ty = (Math.random() - 0.5) * 120;
-                s.style.setProperty('--tx', `${tx}px`);
-                s.style.setProperty('--ty', `${ty}px`);
-                s.style.left = (rect.left + rect.width/2) + "px";
-                s.style.top = (rect.top + rect.height/2) + "px";
-                document.body.appendChild(s);
-                setTimeout(() => s.remove(), 800);
-            }
+            // ENHANCED: Create explosion of particles with more variety and sparkle
+            createEnhancedExplosion(flower);
 
             if (count >= total) {
                 setTimeout(() => {
+                    // Hide instructions
                     document.querySelector('.instructions').style.opacity = '0';
-                    document.getElementById("message").style.display = 'block';
-                    // Extra petal burst
-                    for(let i=0; i<15; i++) setTimeout(createPetal, i*150);
-                }, 400);
+                    
+                    // Show Message
+                    const msg = document.getElementById("message");
+                    msg.style.display = 'block';
+                    
+                    // Big Heart Animation
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-beat';
+                    heart.innerHTML = '❤️';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 2000);
+
+                    // Rain of flowers (keep original behavior)
+                    for(let i=0; i<30; i++) setTimeout(createPetal, i*100);
+                }, 600);
             }
         }
 
-        function createPetal() {
-            const p = document.createElement("div");
-            p.className = "petal";
-            const items = ["🌸", "🌺", "🌼", "✨", "🌷", "💖"];
-            p.innerHTML = items[Math.floor(Math.random() * items.length)];
-            p.style.left = Math.random() * 100 + "vw";
-            p.style.fontSize = (Math.random() * 20 + 15) + "px";
-            p.style.animationDuration = (Math.random() * 3 + 4) + "s";
-            p.style.opacity = Math.random() + 0.3;
-            document.body.appendChild(p);
-            setTimeout(() => p.remove(), 8000);
+        // ENHANCED explosion function with more particles, colors, and emojis
+        function createEnhancedExplosion(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            // More particles (20 instead of 12)
+            for (let i = 0; i < 24; i++) {
+                const p = document.createElement("div");
+                p.className = "particle";
+                
+                // Richer variety of sparkle emojis
+                const emojis = ["✨", "💖", "🌸", "🌟", "💫", "⭐", "🌺", "🦋", "💗", "✨", "🌼", "🐝"];
+                p.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                // Random direction with more spread
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 180 + 70; // 70-250px range
+                const x = Math.cos(angle) * velocity;
+                const y = Math.sin(angle) * velocity;
+
+                p.style.left = centerX + "px";
+                p.style.top = centerY + "px";
+                p.style.setProperty('--x', `${x}px`);
+                p.style.setProperty('--y', `${y}px`);
+                
+                // Add random colors for variety
+                const hue = Math.random() * 60 + 300; // pink/purple range (300-360°)
+                p.style.color = `hsl(${hue}, 100%, 70%)`;
+                p.style.fontSize = (15 + Math.random() * 15) + 'px';
+                
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 900);
+            }
         }
 
-        setInterval(createPetal, 700);
+        // Original petal creation function (keep as is)
+        function createPetal() {
+            const p = document.createElement("div");
+            p.className = "particle";
+            p.innerHTML = ["🌸", "🌺", "🌼", "✨", "🌷", "💖"][Math.floor(Math.random() * 6)];
+            
+            // Fall down effect
+            const startX = Math.random() * 100;
+            const endX = startX + (Math.random() - 0.5) * 100;
+            
+            p.style.left = startX + "vw";
+            p.style.top = "-50px";
+            p.style.setProperty('--x', `${endX - startX}vw`);
+            p.style.setProperty('--y', '110vh');
+            
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 5000);
+        }
     </script>
 </body>
 </html>
